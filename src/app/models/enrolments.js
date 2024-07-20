@@ -1,0 +1,2 @@
+// Functional requirement: 4) Students can enrol in a course. Students should not be able to enrol in a course more than once at each time.
+// Functional requirement: 5) Teachers can fail or pass a student.
