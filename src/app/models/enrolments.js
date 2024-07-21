@@ -20,6 +20,36 @@ class Enrolments {
       connection.end();
     }
   };
+
+  // Functional requirement: 5) Teachers can fail or pass a student.
+    static async pass(enrolmentData){
+    const connection = await getConnection();
+    try {
+      const [result] = await connection.query(
+          // SQL query to be added below
+          ''
+          [enrolmentData.CourseID, enrolmentData.UserID]
+      );
+      return { id: result.insertId, ...enrolmentData };
+    } finally {
+      connection.end();
+    }
+  };
+
+  // Functional requirement: 5) Teachers can fail or pass a student.
+    static async fail(enrolmentData){
+    const connection = await getConnection();
+    try {
+      const [result] = await connection.query(
+          // SQL query to be added below
+          ''
+          [enrolmentData.CourseID, enrolmentData.UserID]
+      );
+      return { id: result.insertId, ...enrolmentData };
+    } finally {
+      connection.end();
+    }
+  };
 }
 
 module.exports = Enrolments;
