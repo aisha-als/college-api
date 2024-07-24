@@ -16,6 +16,20 @@ class Courses {
       connection.end();
     }
   };
+
+  /*
+  static findAvailableCourses = async () => {
+    const connection = await getConnection();
+    try {
+      // SQL query to be updated
+      const [rows] = await connection.query('SELECT * from courses');
+      return rows;
+    } finally {
+      connection.end();
+    }
+
+   */
+
 }
 
 module.exports = Courses;

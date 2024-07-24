@@ -2,7 +2,7 @@ const { getConnection } = require('../services/db');
 
 class Authorisation {
     // Functional requirement: 6) Access control for Admins, Teachers and Students: Ensure only the authorised access
-    // can perform an action. For example, only teachers can pass/fail a student.
+    // can perform an action.
     static async getAuthorisation(authData) {
         const connection = await getConnection();
         try {

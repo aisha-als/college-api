@@ -1,5 +1,3 @@
-// Functional requirement: 5) Teachers can fail or pass a student.
-
 const { getConnection } = require('../services/db');
 
 class Enrolments {
