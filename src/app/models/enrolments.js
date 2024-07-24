@@ -20,7 +20,7 @@ class Enrolments {
   };
 
   // Functional requirement: 5) Teachers can fail or pass a student.
-    static async pass(enrolmentData){
+  static async pass(enrolmentData){
     const connection = await getConnection();
     try {
       const [result] = await connection.query(
@@ -35,7 +35,7 @@ class Enrolments {
   };
 
   // Functional requirement: 5) Teachers can fail or pass a student.
-    static async fail(enrolmentData){
+  static async fail(enrolmentData){
     const connection = await getConnection();
     try {
       const [result] = await connection.query(
