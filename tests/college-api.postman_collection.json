@@ -1,0 +1,188 @@
+{
+	"info": {
+		"_postman_id": "aeea84d8-12a4-4fd4-86ad-65316252fe18",
+		"name": "college-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "37081042"
+	},
+	"item": [
+		{
+			"name": "courses",
+			"item": [
+				{
+					"name": "/api/courses/availablecourses",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "UserID",
+								"value": "10",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}:{{port}}/api/courses/availablecourses"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/courses/enable",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "UserID",
+								"value": "1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"CourseID\": \"4\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}:{{port}}/api/courses/enable"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/courses/disable",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "UserID",
+								"value": "1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"CourseID\": \"5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}:{{port}}/api/courses/disable"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/courses/assign",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "UserID",
+								"value": "1",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"CourseID\": \"6\",\n  \"TeacherID\": \"6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}:{{port}}/api/courses/assign"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "enrolments",
+			"item": [
+				{
+					"name": "/api/enrolments/enrol",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "UserID",
+								"value": "10",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"CourseID\": \"5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}:{{port}}/api/enrolments/enrol"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/enrolments/pass",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "UserID",
+								"value": "3",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"CourseID\": \"1\",\n  \"StudentID\": \"6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}:{{port}}/api/enrolments/pass"
+					},
+					"response": []
+				},
+				{
+					"name": "/api/enrolments/fail",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"CourseID\": \"1\",\n  \"UserID\": \"14\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{server}}:{{port}}/api/enrolments/fail"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
