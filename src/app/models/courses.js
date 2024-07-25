@@ -6,8 +6,7 @@ class Courses {
   static findAvailableCourses = async () => {
     const connection = await getConnection();
     try {
-      // SQL query to be updated
-      const [rows] = await connection.query('SELECT * from courses');
+      const [rows] = await connection.query('SELECT * from courses WHERE isAvailable = 1');
       return rows;
     } finally {
       connection.end();
@@ -18,8 +17,7 @@ class Courses {
   static enableCourse = async (courseData) => {
     const connection = await getConnection();
     try {
-      // SQL query to be added
-      const [rows] = await connection.query('', [courseData.CourseID]);
+      const [rows] = await connection.query('UPDATE courses SET isAvailable = 1 WHERE courseID = ?', [courseData.CourseID]);
       return rows;
     } finally {
       connection.end();
@@ -30,8 +28,7 @@ class Courses {
   static disableCourse = async (courseData) => {
     const connection = await getConnection();
     try {
-      // SQL query to be added
-      const [rows] = await connection.query('', [courseData.CourseID]);
+      const [rows] = await connection.query('UPDATE courses SET isAvailable = 0 WHERE courseID = ?', courseData.CourseID);
       return rows;
     } finally {
       connection.end();
@@ -42,8 +39,7 @@ class Courses {
   static assignCourse = async (courseData) => {
     const connection = await getConnection();
     try {
-      // SQL query to be added
-      const [rows] = await connection.query('', [courseData.CourseID, courseData.UserID]);
+      const [rows] = await connection.query('UPDATE courses SET TeacherID = ? WHERE courseID = ?', [courseData.TeacherID, courseData.CourseID]);
       return rows;
     } finally {
       connection.end();

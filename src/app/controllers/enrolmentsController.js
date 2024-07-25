@@ -2,9 +2,13 @@ const enrolmentsModel = require('../models/enrolments');
 const authorisationCheck = require("../controllers/authorisationController");
 
 exports.enrol = async (req, res) => {
-    const { CourseID, UserID } = req.body;
-    if (!CourseID || !UserID) {
-      return res.status(400).json({ message: 'CourseID and UserID are required.' });
+    const CourseID = req.body.CourseID;
+    const UserID = req.header('UserID');
+    if (!UserID) {
+      return res.status(400).json({ message: 'UserID is required to be sent in the header.' });
+    }
+    if (!CourseID) {
+      return res.status(400).json({ message: 'CourseID is required to be sent in the body.' });
     }
     // Functional requirement: 6) Access control for Admins, Teachers and Students: Ensure only the authorised access
     // can perform an action.
@@ -28,9 +32,13 @@ exports.enrol = async (req, res) => {
 };
 
 exports.pass = async (req, res) => {
-    const {CourseID, UserID} = req.body;
-    if (!CourseID || !UserID) {
-        return res.status(400).json({message: 'CourseID and UserID are required.'});
+    const { CourseID, StudentID } = req.body;
+    const UserID = req.header('UserID');
+    if (!UserID) {
+      return res.status(400).json({ message: 'UserID is required to be sent in the header.' });
+    }
+    if (!CourseID || !StudentID) {
+      return res.status(400).json({ message: 'CourseID and StudentID are required to be sent in the body.' });
     }
     // Functional requirement: 6) Access control for Admins, Teachers and Students: Ensure only the authorised access
     // can perform an action.
@@ -39,20 +47,24 @@ exports.pass = async (req, res) => {
     // Functional requirement: 5) Teachers can fail or pass a student.
     if (authCheck.authorised) {
         try {
-            const passStudent = await enrolmentsModel.pass({CourseID, UserID});
+            const passStudent = await enrolmentsModel.pass({CourseID, StudentID});
             res.status(201).json({message: 'Successfully updated the students Mark to Pass. Details: ', passStudent});
         } catch (error) {
+            res.status(500).json({message: 'Error updating the students Mark to Pass.', error: error.message});
         }
-        res.status(500).json({message: 'Error updating the students Mark to Pass.', error: error.message});
     } else {
         res.status(500).json({ message: 'User not authorised.' });
     }
 };
 
 exports.fail = async (req, res) => {
-    const {CourseID, UserID} = req.body;
-    if (!CourseID || !UserID) {
-        return res.status(400).json({message: 'CourseID and UserID are required.'});
+    const { CourseID, StudentID } = req.body;
+    const UserID = req.header('UserID');
+    if (!UserID) {
+      return res.status(400).json({ message: 'UserID is required to be sent in the header.' });
+    }
+    if (!CourseID || !StudentID) {
+      return res.status(400).json({ message: 'CourseID and StudentID are required to be sent in the body.' });
     }
     // Functional requirement: 6) Access control for Admins, Teachers and Students: Ensure only the authorised access
     // can perform an action.
@@ -61,11 +73,11 @@ exports.fail = async (req, res) => {
     // Functional requirement: 5) Teachers can fail or pass a student.
     if (authCheck.authorised) {
         try {
-            const failStudent = await enrolmentsModel.pass({CourseID, UserID});
+            const failStudent = await enrolmentsModel.fail({CourseID, StudentID});
             res.status(201).json({message: 'Successfully updated the students Mark to Fail. Details: ', failStudent});
         } catch (error) {
+            res.status(500).json({message: 'Error updating the students Mark to Fail.', error: error.message});
         }
-        res.status(500).json({message: 'Error updating the students Mark to Fail.', error: error.message});
     } else {
         res.status(500).json({ message: 'User not authorised.' });
     }

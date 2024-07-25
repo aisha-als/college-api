@@ -3,8 +3,8 @@ const router = express.Router();
 const coursesController = require('../controllers/coursesController');
 
 router.get('/availablecourses', coursesController.getAvailableCourses);
-//router.get('/enable', coursesController.enableCourse);
-//router.get('/disable', coursesController.disableCourse);
-//router.get('/assign', coursesController.assignCourse);
+router.put('/enable', coursesController.enableCourse);
+router.put('/disable', coursesController.disableCourse);
+router.put('/assign', coursesController.assignCourse);
 
 module.exports = router;

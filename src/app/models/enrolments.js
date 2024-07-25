@@ -24,9 +24,8 @@ class Enrolments {
     const connection = await getConnection();
     try {
       const [result] = await connection.query(
-          // SQL query to be added below
-          ''
-          [enrolmentData.CourseID, enrolmentData.UserID]
+          'UPDATE enrolments SET Mark = 1 WHERE courseID = ? AND UserID = ?',
+          [enrolmentData.CourseID, enrolmentData.StudentID]
       );
       return { id: result.insertId, ...enrolmentData };
     } finally {
@@ -39,9 +38,8 @@ class Enrolments {
     const connection = await getConnection();
     try {
       const [result] = await connection.query(
-          // SQL query to be added below
-          ''
-          [enrolmentData.CourseID, enrolmentData.UserID]
+          'UPDATE enrolments SET Mark = 0 WHERE courseID = ? AND UserID = ?',
+          [enrolmentData.CourseID, enrolmentData.StudentID]
       );
       return { id: result.insertId, ...enrolmentData };
     } finally {

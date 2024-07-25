@@ -2,9 +2,9 @@ const coursesModel = require('../models/courses');
 const authorisationCheck = require('../controllers/authorisationController');
 
 exports.getAvailableCourses = async (req, res) => {
-    const { UserID } = req.body;
+    const UserID = req.header('UserID');
     if (!UserID) {
-      return res.status(400).json({ message: 'UserID is required.' });
+      return res.status(400).json({ message: 'UserID is required to be sent in the header.' });
     }
     // Functional requirement: 6) Access control for Admins, Teachers and Students: Ensure only the authorised access
     // can perform an action.
@@ -15,7 +15,7 @@ exports.getAvailableCourses = async (req, res) => {
     if (authCheck.authorised) {
       try {
         const availableCourses = await coursesModel.findAvailableCourses();
-        res.json(availableCourses);
+        res.json({ message: 'This is a list of the available courses this semester.', availableCourses });
       } catch (error) {
           res.status(500).json({ message: 'Error retrieving available courses.', error: error.message });
       }
@@ -25,9 +25,13 @@ exports.getAvailableCourses = async (req, res) => {
 };
 
 exports.enableCourse = async (req, res) => {
-    const { CourseID, UserID } = req.body;
-    if (!CourseID || !UserID) {
-      return res.status(400).json({ message: 'CourseID and UserID are required.' });
+    const UserID = req.header('UserID');
+    const CourseID = req.body.CourseID;
+    if (!UserID) {
+      return res.status(400).json({ message: 'UserID is required to be sent in the header.' });
+    }
+    if (!CourseID) {
+      return res.status(400).json({ message: 'CourseID is required to be sent in the body.' });
     }
     // Functional requirement: 6) Access control for Admins, Teachers and Students: Ensure only the authorised access
     // can perform an action.
@@ -37,7 +41,7 @@ exports.enableCourse = async (req, res) => {
     if (authCheck.authorised) {
       try {
         const enable = await coursesModel.enableCourse({CourseID});
-        res.json(enable);
+        res.json({ message: 'Course has been enabled.', CourseID, enable });
       } catch (error) {
           res.status(500).json({ message: 'Error enabling the course.', error: error.message });
       }
@@ -47,9 +51,13 @@ exports.enableCourse = async (req, res) => {
 };
 
 exports.disableCourse = async (req, res) => {
-    const { CourseID, UserID } = req.body;
-    if (!CourseID || !UserID) {
-      return res.status(400).json({ message: 'CourseID and UserID are required.' });
+    const CourseID = req.body.CourseID;
+    const UserID = req.header('UserID');
+    if (!UserID) {
+      return res.status(400).json({ message: 'UserID is required to be sent in the header.' });
+    }
+    if (!CourseID) {
+      return res.status(400).json({ message: 'CourseID is required to be sent in the body.' });
     }
     // Functional requirement: 6) Access control for Admins, Teachers and Students: Ensure only the authorised access
     // can perform an action.
@@ -59,7 +67,7 @@ exports.disableCourse = async (req, res) => {
     if (authCheck.authorised) {
       try {
         const disable = await coursesModel.disableCourse({CourseID});
-        res.json(disable);
+        res.json({ message: 'Course has been disabled.', CourseID, disable });
       } catch (error) {
           res.status(500).json({ message: 'Error disabling the course.', error: error.message });
       }
@@ -69,9 +77,13 @@ exports.disableCourse = async (req, res) => {
 };
 
 exports.assignCourse = async (req, res) => {
-    const { CourseID, UserID } = req.body;
-    if (!CourseID || !UserID) {
-      return res.status(400).json({ message: 'CourseID and UserID are required.' });
+    const { CourseID, TeacherID } = req.body;
+    const UserID = req.header('UserID');
+    if (!UserID) {
+      return res.status(400).json({ message: 'UserID is required to be sent in the header.' });
+    }
+    if (!CourseID || !TeacherID) {
+      return res.status(400).json({ message: 'CourseID and TeacherID are required to be sent in the body.' });
     }
     // Functional requirement: 6) Access control for Admins, Teachers and Students: Ensure only the authorised access
     // can perform an action.
@@ -80,8 +92,8 @@ exports.assignCourse = async (req, res) => {
     // Functional requirement: 1) Admins should be able to enable or disable the availability of a course
     if (authCheck.authorised) {
       try {
-        const assign = await coursesModel.assignCourse({CousreID, UserID});
-        res.json(assign);
+        const assign = await coursesModel.assignCourse({CourseID, TeacherID});
+        res.json({ message: 'Course has been assigned to teacher.', assign });
       } catch (error) {
           res.status(500).json({ message: 'Error assigning the course.', error: error.message });
       }
